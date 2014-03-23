@@ -20,7 +20,7 @@ module.exports = function (dir) {
         }
 
         var filename = path.join(dir, this._id + '.json');
-        fs.writeFile(filename, json, 'utf8', function (err) {
+        fs.writeFile(filename, json, function (err) {
             callback(err);
         });
     };
@@ -34,7 +34,7 @@ module.exports = function (dir) {
 
     Article.get = function (id, callback) {
         var filename = path.join(dir, id + '.json');
-        fs.readFile(filename, 'utf8', function (err, data) {
+        fs.readFile(filename, function (err, data) {
             if (err) return callback(err);
 
             var article = new Article(id);
