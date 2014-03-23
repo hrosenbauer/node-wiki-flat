@@ -1,4 +1,42 @@
 <% layout('layout') -%>
+
 <div id="article"></div>
 
-<% include edit %>
+<form role="form" id="edit">
+    <div id="notify-error" class="alert alert-danger">
+        <strong>Oh snap!</strong> Something went wrong. Why don't you fetch a coffee and try again.
+    </div>
+    <div class="form-group">
+        <textarea class="form-control" rows="20" id="content"><%= article.content %></textarea>
+    </div>
+    <div class="form-group">
+        <button type="reset" class="btn btn-default" id="reset">Reset</button>
+        <button type="button" class="btn btn-primary" id="save">Save</button>
+    </div>
+</form>
+
+<script src="/marked/lib/marked.js"></script>
+<script>
+    function parseMarkdown(markdown) {
+        var html = marked(markdown);
+        $('#article').html(html);
+    }
+    parseMarkdown($('#content').val());
+
+    $('#notify-error').hide();
+
+    $('#save').click(function () {
+        $('#notify-error').hide();
+
+        var content = $('#content').val();
+        $.post(window.location.href, {
+            content: content
+        }).done(function () {
+            parseMarkdown(content);
+        }).fail(function () {
+            $('#notify-error').show();
+        });
+    });
+
+    $('#content').focus();
+</script>
