@@ -1,8 +1,26 @@
 <% layout('layout') -%>
 
+<style>
+    #edit {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+    }
+
+    #notify-error {
+        display: none;
+    }
+
+    #editor {
+        display: none;
+    }
+</style>
+
 <div id="article"></div>
 
-<form role="form" id="edit">
+<button type="button" class="btn btn-default" id="edit">Edit</button>
+
+<form role="form" id="editor">
     <div id="notify-error" class="alert alert-danger">
         <strong>Oh snap!</strong> Something went wrong. Why don't you fetch a coffee and try again.
     </div>
@@ -17,26 +35,47 @@
 
 <script src="/marked/lib/marked.js"></script>
 <script>
-    function parseMarkdown(markdown) {
-        var html = marked(markdown);
-        $('#article').html(html);
-    }
-    parseMarkdown($('#content').val());
+    var $editor = $('#editor'),
+        $article = $('#article'),
+        $content = $('#content'),
+        $error = $('#notify-error');
 
-    $('#notify-error').hide();
+    function showEditor() {
+        $article.hide();
+        $editor.show();
+        $content.focus();
+    }
+    function showArticle() {
+        $editor.hide();
+        $article.show();
+    }
+
+    $('#edit').click(function () {
+        if ($editor.is(':visible')) {
+            showArticle();
+        }
+        else {
+            showEditor();
+        }
+    });
 
     $('#save').click(function () {
-        $('#notify-error').hide();
+        $error.hide();
 
-        var content = $('#content').val();
+        var content = $content.val();
         $.post(window.location.href, {
             content: content
         }).done(function () {
             parseMarkdown(content);
+            showArticle();
         }).fail(function () {
-            $('#notify-error').show();
+            $error.show();
         });
     });
 
-    $('#content').focus();
+    function parseMarkdown(markdown) {
+        var html = marked(markdown);
+        $('#article').html(html);
+    }
+    parseMarkdown($content.val());
 </script>
