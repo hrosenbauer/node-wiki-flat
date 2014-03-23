@@ -1,6 +1,7 @@
 var http = require('http'),
     path = require('path'),
     express = require('express'),
+    ejs = require('ejs-locals'),
     config = require('./config'),
     app = express();
 
@@ -9,8 +10,9 @@ app.use(express.logger(config.logger));
 app.set('port', process.env.PORT || config.port);
 
 // configure view engine
-app.set('views', path.join(__dirname, 'views'));
+app.engine('ejs', ejs);
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // configure express

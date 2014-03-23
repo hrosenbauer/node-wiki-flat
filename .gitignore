@@ -1,2 +1,9 @@
+# logs
+logs
+*.log
+
+# dependencies
+node_modules
+
+# ide
 .idea
-.node_modules
