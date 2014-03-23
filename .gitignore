@@ -4,6 +4,7 @@ logs
 
 # dependencies
 node_modules
+bower_components
 
 # ide
 .idea
