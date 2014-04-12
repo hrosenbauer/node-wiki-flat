@@ -1,31 +1,31 @@
-var http = require('http'),
-    path = require('path'),
+var path = require('path'),
     express = require('express'),
+    logger = require('morgan'),
+    bodyParser = require('body-parser'),
     ejs = require('ejs-locals'),
     config = require('./config'),
     app = express();
 
-app.configure(function () {
-    // configure environment
-    app.use(express.logger(config.logger));
-    app.set('port', process.env.PORT || config.port);
+// enable logging
+app.use(logger({
+    format: config.logger
+}));
 
-    // configure view engine
-    app.engine('ejs', ejs);
-    app.set('view engine', 'ejs');
-    app.set('views', path.join(__dirname, 'views'));
-    app.use(express.static(path.join(__dirname, 'public')));
-    app.use(express.static(path.join(__dirname, 'bower_components')));
+// configure port
+app.set('port', process.env.PORT || config.port);
 
-    // configure express
-    app.use(express.json());
-    app.use(express.urlencoded());
-    app.use(express.methodOverride());
+// enable body parser
+app.use(bodyParser());
 
-    // configure routing
-    app.use(app.router);
-    require('./routes')(app);
-});
+// configure view engine
+app.engine('ejs', ejs);
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'bower_components')));
+
+// configure routing
+require('./routes')(app);
 
 // start http server
 app.listen(app.get('port'));
