@@ -8,5 +8,5 @@ module.exports = function (app) {
     });
     app.get('/:article', article.view);
     app.post('/:article', article.save);
-    app.del('/:article', article.remove);
+    app.delete('/:article', article.remove);
 };
