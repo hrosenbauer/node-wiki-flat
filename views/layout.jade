@@ -1,0 +1,19 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+
+        block title
+            title Wiki
+
+        link(rel='stylesheet', href='/bootstrap/dist/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/lumen/lumen.min.css')
+        block css
+    body
+        block content
+
+        script(src='/jquery/dist/jquery.min.js')
+        script(src='/bootstrap/dist/js/bootstrap.min.js')
+        script(src='/marked/lib/marked.js')
+        block scripts

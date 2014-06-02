@@ -2,7 +2,6 @@ var path = require('path'),
     express = require('express'),
     logger = require('morgan'),
     bodyParser = require('body-parser'),
-    ejs = require('ejs-locals'),
     config = require('./config'),
     app = express();
 
@@ -18,8 +17,7 @@ app.set('port', process.env.PORT || config.port);
 app.use(bodyParser());
 
 // configure view engine
-app.engine('ejs', ejs);
-app.set('view engine', 'ejs');
+app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components')));

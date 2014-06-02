@@ -1,0 +1,27 @@
+extends layout
+
+block css
+    link(rel='stylesheet', href='/css/main.css')
+
+block scripts
+    script(src='/js/wiki.js')
+
+block content
+    button#edit.btn.btn-default.btn-sm(type='button', title='Edit')
+        span.glyphicon.glyphicon-edit
+
+    #article
+
+    form#editor(role='form')
+        #notify-error.alert.alert-danger
+            strong Oh snap!
+            | Something went wrong. Why don't you fetch a coffee and try again.
+
+        #content-group.form-group
+            textarea#content.form-control=article.content
+
+        .form-group
+            button#reset.btn.btn-default(type='reset') Reset
+            |&nbsp;
+            button#save.btn.btn-primary(type='button')
+                span.glyphicon.glyphicon-cloud Save
